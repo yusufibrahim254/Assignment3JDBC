@@ -1,13 +1,27 @@
-1. Setting up the Database
+## README: Assignment 3 JDBC Setup
 
-Clone this repo git clone (https://github.com/yusufibrahim254/Assignment3JDBC.git)
-Create a database named "school" using pgAdmin 4.
+1. **Setting up the Database:**
 
-Click the query tool
+    - **Clone Repository:** 
+      Clone this repository using the following command:
+      ```
+      git clone https://github.com/yusufibrahim254/Assignment3JDBC.git
+      ```
+      
+    - **Create Database:** 
+      Open pgAdmin 4 and create a new database named "school".
+      Make sure to set up the database host with your own databse information. 
+      
+    - **Import Schema:**
+      1. Click on the query tool.
+      2. Open the file tool in the panel.
+      3. Import the databaseSetup.sql file.
+      4. Run the file.
+      
+    - **Run Java File:**
+      Execute the `PostgreSQLJDBCConnection.java` file to establish a connection with the database.
+      Play with the methods that were created!
+      
+2. **Demo Video:**
 
-Click the open file tool in the panel that just opened and import the databaseSetup.sql file
-
-Run the PostgreSQLJDBCConnection.java file. 
-
-Demo Video:
-Link: https://youtu.be/QC2YSRXX9lM
+    - **Link:** [Assignment 3 JDBC Demo](https://youtu.be/QC2YSRXX9lM)

@@ -3,17 +3,12 @@ package org.example;
 import java.sql.*;
 
 public class PostgreSQLJDBCConnection {
-
-    public static String url = "jdbc:postgresql://localhost:5432/school";
-    public static String user = "postgres";
-    public static String password = "Yusuf1234";
-
-    public Connection conn;
+    private static Connection conn;
 
 
 
 
-    public void getAllStudents() {
+    public static void getAllStudents() {
         try {
             Statement stmt = conn.createStatement(); // Execute SQL query
             String SQL = "SELECT * FROM students";
@@ -23,7 +18,7 @@ public class PostgreSQLJDBCConnection {
                 String last_name = rs.getString("last_name");
                 String email = rs.getString("email");
                 Date enrollment_date = rs.getDate("enrollment_date");
-                System.out.println("Name: " + first_name + " " + last_name + "\nEmail: " + email + "\nDate Enrolled: " + enrollment_date);
+                System.out.println("Name: " + first_name + " " + last_name + "\nEmail: " + email + "\nDate Enrolled: " + enrollment_date + "\n\n");
             }
             // Close resources
             rs.close();
@@ -33,23 +28,23 @@ public class PostgreSQLJDBCConnection {
         }
     }
 
-    public void addStudent(String first_name, String last_name, String email, Date enrollment_date) {
+    public static void addStudent(String first_name, String last_name, String email, Date enrollment_date) {
 
-            String insert = "INSERT INTO students (first_name, last_name, email, enrollement_date) VALUES(?,?,?,?)";
+            String insert = "INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES(?,?,?,?)";
         try ( PreparedStatement pstmt = conn.prepareStatement(insert)){
                 pstmt.setString(1, first_name);
                 pstmt.setString(2, last_name);
                 pstmt.setString(3, email);
                 pstmt.setDate(4, enrollment_date);
                 pstmt.executeUpdate();
-                System.out.println("Data inserted using PreparedStatement.");
+                System.out.println("Data inserted successfully");
                 getAllStudents();
         } catch (SQLException e) {
-            System.out.println("SQL Exception in create");
+            System.out.println(e);
         }
     }
 
-    public void updateStudentEmail(int student_id, String new_email) {
+    public static void updateStudentEmail(int student_id, String new_email) {
         String SQL = "UPDATE students SET email = ? WHERE student_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setString(1, new_email);
@@ -66,7 +61,7 @@ public class PostgreSQLJDBCConnection {
         }
     }
 
-    public void deleteStudent(int student_id) {
+    public static void deleteStudent(int student_id) {
         String SQL = "DELETE FROM students WHERE student_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setInt(1, student_id);
@@ -84,13 +79,19 @@ public class PostgreSQLJDBCConnection {
 
     public static void main(String[] args) {
 // JDBC & Database credentials
-
+        String url = "jdbc:postgresql://localhost:5432/school";
+        String user = "postgres";
+        String password = "Yusuf1234";
         try { // Load PostgreSQL JDBC Driver
             Class.forName("org.postgresql.Driver");
-// Connect to the database
-            Connection conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(url, user, password);
             if (conn != null) {
                 System.out.println("Connected to PostgreSQL successfully!");
+                Date date = Date.valueOf("2024-09-08");
+                //getAllStudents();
+                //addStudent("Yusuf", "Ibrahim", "yusufibrahim3@cmail.carleton.ca", date); // Create operation
+    //         updateStudentEmail(3, "JimsNewEmail@gmail.com"); // Update operation
+               deleteStudent(6); // Delete operation
 
             } else {
                 System.out.println("Failed to establish connection.");
